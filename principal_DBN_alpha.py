@@ -40,7 +40,7 @@ class DBN_alpha:
             top_sample = visible
 
             # Étape 2 : Descendre dans le réseau couche par couche
-            for rbm in reversed(self.rbm_list[:-1]):  # Descendre de la couche supérieure à la couche visible
+            for rbm in reversed(self.rbm_list[-2::-1]):  # Descendre de la couche supérieure à la couche visible
                 top_sample = sample_binary(rbm.sortie_entree(top_sample))
             
             # Ajouter l'image générée à la liste
