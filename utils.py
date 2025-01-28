@@ -101,3 +101,22 @@ def cross_entropy_loss(probabilities, targets):
     loss = -np.mean(np.log(target_probs))
 
     return loss
+
+def convert_labels_to_numeric(labels, mapping=None):
+    """
+    Convertit une liste de labels en leurs représentations numériques.
+    
+    Parameters:
+        labels (list): Liste de labels à convertir.
+        mapping (list, optional): Liste des caractères valides. Par défaut, 0-9 et A-Z.
+
+    """
+    if mapping is None:
+        mapping = [str(i) for i in range(10)] + [chr(i) for i in range(65, 91)]  # 0-9 et A-Z
+    char_to_index = {char: idx for idx, char in enumerate(mapping)}
+    
+    try:
+        return [char_to_index[label] for label in labels]
+    except KeyError as e:
+        raise ValueError(f"Label invalide trouvé : {e.args[0]}") from e
+
