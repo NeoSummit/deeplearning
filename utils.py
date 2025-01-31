@@ -119,4 +119,26 @@ def convert_labels_to_numeric(labels, mapping=None):
         return [char_to_index[label] for label in labels]
     except KeyError as e:
         raise ValueError(f"Label invalide trouvé : {e.args[0]}") from e
+    
+
+def select_and_shuffle_indices(y_train, nb_indices=600):
+    """
+    Sélectionne aléatoirement un nombre donné d'indices pour chaque chiffre de 0 à 9
+    et retourne une liste mélangée de ces indices.
+    
+    :param y_train: Tableau numpy contenant les étiquettes des données
+    :param nb_indices: Nombre d'indices à sélectionner pour chaque chiffre (défaut: 600)
+    :return: Liste des indices sélectionnés et mélangés
+    """
+    selected_indices_list = []
+    
+    for val in range(10):  # Les chiffres vont de 0 à 9
+        indices = np.where(y_train == val)[0]  # Trouver les indices où le chiffre apparaît
+        selected = np.random.choice(indices, nb_indices, replace=False)  # Sélection aléatoire
+        selected_indices_list.extend(selected)  # Ajout à la liste
+    
+    np.random.shuffle(selected_indices_list)  # Mélange des indices
+    
+    return selected_indices_list
+
 
